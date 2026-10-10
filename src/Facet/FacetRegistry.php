@@ -39,9 +39,22 @@ class FacetRegistry
             if (!$service) {
                 continue;
             }
-            /** @var SearchFacet $facet */
             $facet = Injector::inst()->get($service);
-            if ($facet->isAvailable()) {
+
+            // A provider expands into zero or more concrete facets (e.g. one per attribute type).
+            if ($facet instanceof ExpandableFacet) {
+                if (!$facet->isAvailable()) {
+                    continue;
+                }
+                foreach ($facet->expand() as $expanded) {
+                    if ($expanded->isAvailable()) {
+                        $facets[$expanded->getName()] = $expanded;
+                    }
+                }
+                continue;
+            }
+
+            if ($facet instanceof SearchFacet && $facet->isAvailable()) {
                 $facets[$facet->getName()] = $facet;
             }
         }
