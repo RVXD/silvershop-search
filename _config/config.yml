@@ -1,0 +1,13 @@
+---
+Name: silvershop-search
+After:
+  - '#silvershop'
+---
+SilverShop\Search\Facet\FacetRegistry:
+  facets:
+    price: '%$SilverShop\Search\Facet\PriceFacet'
+
+SilverShop\Search\Backend\BackendRegistry:
+  active_backend: 'db'
+  backends:
+    db: '%$SilverShop\Search\Backend\DbSearchBackend'

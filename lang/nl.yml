@@ -1,0 +1,16 @@
+nl:
+  SilverShop\Search\Backend\DbSearchBackend:
+    TITLE: 'Database (ingebouwd)'
+  SilverShop\Search\Facet\PriceFacet:
+    TITLE: 'Prijs'
+    UNDER: 'Tot {max}'
+    PLUS: '{min} en hoger'
+    RANGE: '{min} – {max}'
+  SilverShop\Search\Form\ProductSearchForm:
+    LABEL: 'Zoeken'
+    PLACEHOLDER: 'Zoek producten…'
+    SUBMIT: 'Zoeken'
+  SilverShop\Search\SearchPage:
+    RESULTS_FOR: 'Resultaten voor "{query}"'
+    TOTAL: '{count} product(en)'
+    EMPTY: 'Geen producten gevonden voor je zoekopdracht.'

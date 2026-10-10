@@ -1,0 +1,16 @@
+fr:
+  SilverShop\Search\Backend\DbSearchBackend:
+    TITLE: 'Base de données (intégré)'
+  SilverShop\Search\Facet\PriceFacet:
+    TITLE: 'Prix'
+    UNDER: 'Jusqu’à {max}'
+    PLUS: '{min} et plus'
+    RANGE: '{min} – {max}'
+  SilverShop\Search\Form\ProductSearchForm:
+    LABEL: 'Rechercher'
+    PLACEHOLDER: 'Rechercher des produits…'
+    SUBMIT: 'Rechercher'
+  SilverShop\Search\SearchPage:
+    RESULTS_FOR: 'Résultats pour « {query} »'
+    TOTAL: '{count} produit(s)'
+    EMPTY: 'Aucun produit ne correspond à votre recherche.'

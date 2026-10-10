@@ -1,0 +1,16 @@
+SilverShop\Page\Product:
+  socks:
+    Title: 'Wool Socks'
+    Content: 'Warm merino socks for winter'
+    InternalItemID: 'SOCK-1'
+    BasePrice: 12.50
+  hat:
+    Title: 'Wool Hat'
+    Content: 'Matching wool hat'
+    InternalItemID: 'HAT-1'
+    BasePrice: 22.00
+  jacket:
+    Title: 'Rain Jacket'
+    Content: 'Waterproof shell jacket'
+    InternalItemID: 'JACK-1'
+    BasePrice: 89.00
