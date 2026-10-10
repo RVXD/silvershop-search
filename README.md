@@ -25,13 +25,13 @@ page renders faceted, sorted, paginated results.
 ```
 silvershop/search  ──  SearchBackend (interface)  ──  DbSearchBackend   (default, no infra)
                                                    └─  AlgoliaBackend…   (separate adapter modules, later)
-                    ──  SearchFacet  (interface)  ──  PriceFacet, attribute facets   (intrinsic, here)
+                    ──  SearchFacet  (interface)  ──  CategoryFacet, PriceFacet   (intrinsic, here)
                         + FacetRegistry            └─  BrandFacet (brands), RatingFacet (reviews), … (in their modules)
 ```
 
 - **Backends** run a query and return results. The default `DbSearchBackend` queries the product tables directly —
   correct and dependency-free, but no typo-tolerance/synonyms/instant-search (those come from engine adapters).
-- **Facets** are one filter dimension each. The core ships the *intrinsic* ones (price, and — soon — attributes),
+- **Facets** are one filter dimension each. The core ships the *intrinsic* ones (category, price, and — soon — attributes),
   because they are core catalog data. Facets that belong to an optional module **live in that module** (the same
   convention as the suite's domain reports).
 
@@ -86,8 +86,11 @@ facet, AND across), and shareable. Facet links are `rel=nofollow` to keep crawle
 
 ## Integrations (all soft / optional)
 
-- **silvershop/category-index**, **brands**, **reviews**, **stock** — each ships its own facet (category / brand /
-  rating / stock).
+- **silvershop/category-index** — not required: the category facet works on core alone, but when this module is
+  installed it uses the flat `EffectiveCategories` index (one JOIN) instead of core's per-level tree walk — faster,
+  especially for facet counts.
+- **brands**, **reviews**, **stock** — each ships its own facet (brand / rating / stock), registered only when both
+  it and search are installed.
 - **silvershop/analytics** — search calls its `record()` hook so search terms and zero-result queries feed the
   analytics reports. Dormant until analytics is installed.
 - **silvershop/currency-format** — price-bucket labels respect the shop currency.

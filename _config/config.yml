@@ -5,6 +5,7 @@ After:
 ---
 SilverShop\Search\Facet\FacetRegistry:
   facets:
+    category: '%$SilverShop\Search\Facet\CategoryFacet'
     price: '%$SilverShop\Search\Facet\PriceFacet'
 
 SilverShop\Search\Backend\BackendRegistry:

@@ -44,6 +44,8 @@ class DbSearchBackendTest extends SapphireTest
         $results = (new DbSearchBackend())->query(new SearchQuery());
 
         $this->assertNotEmpty($results->facets, 'facet data is returned');
-        $this->assertSame('price', $results->facets[0]['name'], 'the registered price facet is present');
+        $names = array_column($results->facets, 'name');
+        $this->assertContains('price', $names, 'the price facet is present');
+        $this->assertContains('category', $names, 'the category facet is present');
     }
 }

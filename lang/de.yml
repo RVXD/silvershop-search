@@ -1,6 +1,8 @@
 de:
   SilverShop\Search\Backend\DbSearchBackend:
     TITLE: 'Datenbank (integriert)'
+  SilverShop\Search\Facet\CategoryFacet:
+    TITLE: 'Kategorie'
   SilverShop\Search\Facet\PriceFacet:
     TITLE: 'Preis'
     UNDER: 'Bis {max}'

@@ -1,6 +1,8 @@
 nl:
   SilverShop\Search\Backend\DbSearchBackend:
     TITLE: 'Database (ingebouwd)'
+  SilverShop\Search\Facet\CategoryFacet:
+    TITLE: 'Categorie'
   SilverShop\Search\Facet\PriceFacet:
     TITLE: 'Prijs'
     UNDER: 'Tot {max}'
