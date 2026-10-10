@@ -60,6 +60,15 @@ class CategoryNavTest extends SapphireTest
         $this->assertSame(1, $count, 'only the 10.00 product is in 0–25');
     }
 
+    public function testControllerProductsNarrows(): void
+    {
+        $category = $this->category();
+
+        // Exercise the exact storefront path: $Products -> controller Products() -> ProductsShowable().
+        $total = $this->withController($category, ['price' => '0-25'], fn ($controller) => $controller->Products()->getTotalItems());
+        $this->assertSame(1, $total, 'the controller listing narrows too');
+    }
+
     public function testListingUnfilteredWithoutFacetParams(): void
     {
         $category = $this->category();
