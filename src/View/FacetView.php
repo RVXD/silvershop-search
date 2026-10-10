@@ -29,6 +29,8 @@ class FacetView
                     'Label' => $option['label'],
                     'Count' => $option['count'],
                     'Active' => $option['active'],
+                    // Optional CSS colour for a swatch chip (e.g. the colour facet); null for ordinary facets.
+                    'Swatch' => $option['swatch'] ?? null,
                     'Link' => self::toggleLink($request, $baseLink, $facet['name'], (string) $option['value']),
                 ]));
             }

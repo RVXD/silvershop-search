@@ -14,7 +14,7 @@
                             <ul class="facet__options">
                                 <% loop $Options %>
                                     <li class="facet__option<% if $Active %> is-active<% end_if %>">
-                                        <a href="$Link" rel="nofollow">$Label <span class="facet__count">($Count)</span></a>
+                                        <a href="$Link" rel="nofollow"><% if $Swatch %><span class="facet__swatch" style="background:$Swatch.ATT"></span> <% end_if %>$Label <span class="facet__count">($Count)</span></a>
                                     </li>
                                 <% end_loop %>
                             </ul>
