@@ -8,6 +8,9 @@ nl:
     UNDER: 'Tot {max}'
     PLUS: '{min} en hoger'
     RANGE: '{min} – {max}'
+  SilverShop\Search\Facet\StockFacet:
+    TITLE: 'Beschikbaarheid'
+    IN_STOCK: 'Op voorraad'
   SilverShop\Search\Form\ProductSearchForm:
     LABEL: 'Zoeken'
     PLACEHOLDER: 'Zoek producten…'

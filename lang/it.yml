@@ -8,6 +8,9 @@ it:
     UNDER: 'Fino a {max}'
     PLUS: '{min} e oltre'
     RANGE: '{min} – {max}'
+  SilverShop\Search\Facet\StockFacet:
+    TITLE: 'Disponibilità'
+    IN_STOCK: 'Disponibile'
   SilverShop\Search\Form\ProductSearchForm:
     LABEL: 'Cerca'
     PLACEHOLDER: 'Cerca prodotti…'

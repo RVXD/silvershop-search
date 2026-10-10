@@ -7,6 +7,7 @@ SilverShop\Search\Facet\FacetRegistry:
   facets:
     category: '%$SilverShop\Search\Facet\CategoryFacet'
     price: '%$SilverShop\Search\Facet\PriceFacet'
+    stock: '%$SilverShop\Search\Facet\StockFacet'
 
 SilverShop\Search\Backend\BackendRegistry:
   active_backend: 'db'
