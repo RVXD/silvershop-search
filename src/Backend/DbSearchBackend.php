@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SilverShop\Search\Backend;
 
 use SilverShop\Page\Product;
-use SilverShop\Search\Facet\FacetRegistry;
+use SilverShop\Search\Facet\FacetApplier;
 use SilverShop\Search\Query\SearchQuery;
 use SilverShop\Search\Query\SearchResults;
 use SilverStripe\Core\Config\Configurable;
@@ -51,35 +51,10 @@ class DbSearchBackend implements SearchBackend
 
     public function query(SearchQuery $query): SearchResults
     {
-        $facets = (new FacetRegistry())->all();
-        $base = $this->baseList($query);
+        $applied = FacetApplier::apply($this->baseList($query), $query);
+        $filtered = $this->applySort($applied['products'], $query->sort);
 
-        // Final result set: the base list with every facet's selection applied (AND across facets).
-        $filtered = $base;
-        foreach ($facets as $facet) {
-            $filtered = $facet->apply($filtered, $query->selected($facet->getName()));
-        }
-        $filtered = $this->applySort($filtered, $query->sort);
-
-        // Facet options: each facet is counted against the base list with every OTHER facet's selection applied, so a
-        // facet still shows its alternatives after you pick one of its own values (standard faceted-search behaviour).
-        $facetData = [];
-        foreach ($facets as $facet) {
-            $context = $base;
-            foreach ($facets as $other) {
-                if ($other === $facet) {
-                    continue;
-                }
-                $context = $other->apply($context, $query->selected($other->getName()));
-            }
-            $facetData[] = [
-                'name' => $facet->getName(),
-                'title' => $facet->getTitle(),
-                'options' => $facet->getOptions($context, $query),
-            ];
-        }
-
-        return new SearchResults($filtered, (int) $filtered->count(), $facetData);
+        return new SearchResults($filtered, (int) $filtered->count(), $applied['facets']);
     }
 
     public function index(SS_List $products): void

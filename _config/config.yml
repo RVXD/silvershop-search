@@ -14,3 +14,11 @@ SilverShop\Search\Backend\BackendRegistry:
   active_backend: 'db'
   backends:
     db: '%$SilverShop\Search\Backend\DbSearchBackend'
+
+# Faceted navigation on category pages (filtering is automatic; add $SearchFacets to the category template for a sidebar).
+SilverShop\Page\ProductCategory:
+  extensions:
+    - SilverShop\Search\Extension\ProductCategoryFacetExtension
+SilverShop\Page\ProductCategoryController:
+  extensions:
+    - SilverShop\Search\Extension\ProductCategoryFacetExtension

@@ -9,14 +9,14 @@ use SilverShop\Search\Backend\BackendRegistry;
 use SilverShop\Search\Facet\FacetRegistry;
 use SilverShop\Search\Form\ProductSearchForm;
 use SilverShop\Search\Query\SearchQuery;
+use SilverShop\Search\View\FacetView;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Model\ArrayData;
-use SilverStripe\Model\List\ArrayList;
 use SilverStripe\Model\List\PaginatedList;
 
 /**
  * Runs the query through the active backend and renders results + facets. The search form GETs back here, so the
- * whole state lives in the URL (shareable, cacheable). Facet links toggle a value on/off and reset paging.
+ * whole state lives in the URL (shareable, cacheable). Facet rendering + toggle links are shared with the
+ * on-listing-page faceted navigation via {@link FacetView}.
  */
 class SearchPageController extends PageController
 {
@@ -37,7 +37,7 @@ class SearchPageController extends PageController
             'Query' => $query->terms,
             'Total' => $results->total,
             'Results' => $paginated,
-            'Facets' => $this->facetList($results->facets),
+            'Facets' => FacetView::build($results->facets, $request, $this->Link()),
             'SearchForm' => $this->SearchForm(),
         ]);
     }
@@ -45,81 +45,6 @@ class SearchPageController extends PageController
     public function SearchForm(): ProductSearchForm
     {
         return ProductSearchForm::create($this, 'SearchForm');
-    }
-
-    /**
-     * Turn the backend's facet arrays into template data, each option carrying a toggle Link.
-     *
-     * @param array<int, array<string, mixed>> $facets
-     */
-    private function facetList(array $facets): ArrayList
-    {
-        $list = ArrayList::create();
-        foreach ($facets as $facet) {
-            $options = ArrayList::create();
-            foreach ($facet['options'] as $option) {
-                $options->push(ArrayData::create([
-                    'Value' => $option['value'],
-                    'Label' => $option['label'],
-                    'Count' => $option['count'],
-                    'Active' => $option['active'],
-                    'Link' => $this->toggleLink($facet['name'], (string) $option['value']),
-                ]));
-            }
-            $list->push(ArrayData::create([
-                'Name' => $facet['name'],
-                'Title' => $facet['title'],
-                'Options' => $options,
-            ]));
-        }
-
-        return $list;
-    }
-
-    /**
-     * The current URL with one facet value toggled on/off (OR within a facet), paging reset.
-     */
-    public function toggleLink(string $facet, string $value): string
-    {
-        $vars = $this->cleanVars();
-
-        $current = isset($vars[$facet])
-            ? array_values(array_filter(array_map('trim', explode(',', (string) $vars[$facet])), 'strlen'))
-            : [];
-
-        if (in_array($value, $current, true)) {
-            $current = array_values(array_diff($current, [$value]));
-        } else {
-            $current[] = $value;
-        }
-
-        if ($current) {
-            $vars[$facet] = implode(',', $current);
-        } else {
-            unset($vars[$facet]);
-        }
-
-        $qs = http_build_query($vars);
-
-        return $this->Link() . ($qs ? '?' . $qs : '');
-    }
-
-    /**
-     * Request GET vars minus routing/form noise, so rebuilt links stay clean.
-     *
-     * @return array<string, mixed>
-     */
-    private function cleanVars(): array
-    {
-        $vars = $this->getRequest()->getVars();
-        unset($vars['url'], $vars['flush'], $vars['start']);
-        foreach (array_keys($vars) as $key) {
-            if (str_starts_with((string) $key, 'action_')) {
-                unset($vars[$key]);
-            }
-        }
-
-        return $vars;
     }
 
     /**
